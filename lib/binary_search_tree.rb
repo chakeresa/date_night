@@ -33,4 +33,28 @@ class BinarySearchTree
       end
     end
   end
+
+  def search(score)
+    parent = @root
+    while parent
+      if score == parent.score
+        return parent.title
+      elsif score < parent.score
+        return nil if parent.left == nil
+        parent = parent.left
+      else # score > parent.score
+        return nil if parent.right == nil
+        parent = parent.right
+      end
+    end
+  end
+
+  def include?(score)
+    # is there a more elegant way?
+    if search(score)
+      return true
+    else
+      return false
+    end
+  end
 end
