@@ -38,7 +38,7 @@ class BinarySearchTree
     parent = @root
     while parent
       if score == parent.score
-        return parent.title
+        return parent
       elsif score < parent.score
         return nil if parent.left == nil
         parent = parent.left
@@ -55,6 +55,21 @@ class BinarySearchTree
       return true
     else
       return false
+    end
+  end
+
+  def depth_of(score)
+    search(score).depth
+  end
+
+  def max
+    child = @root.right
+
+    while child
+      if child.right == nil
+        return child.score
+      end
+      child = child.right
     end
   end
 end

@@ -30,10 +30,10 @@ class BinarySearchTreeTest < Minitest::Test
     tree.insert(92, "Sharknado 3")
     tree.insert(50, "Hannibal Buress: Animal Furnace")
 
-    assert_equal "Bill & Ted's Excellent Adventure", tree.search(61)
-    assert_equal "Johnny English", tree.search(16)
-    assert_equal "Sharknado 3", tree.search(92)
-    assert_equal "Hannibal Buress: Animal Furnace", tree.search(50)
+    assert_equal "Bill & Ted's Excellent Adventure", tree.search(61).title
+    assert_equal "Johnny English", tree.search(16).title
+    assert_equal "Sharknado 3", tree.search(92).title
+    assert_equal "Hannibal Buress: Animal Furnace", tree.search(50).title
     assert_nil tree.search(54)
   end
 
@@ -47,5 +47,28 @@ class BinarySearchTreeTest < Minitest::Test
 
     assert_equal true, tree.include?(16)
     assert_equal false, tree.include?(72)
+  end
+
+  def test_depth_of_returns_depth_given_score
+    tree = BinarySearchTree.new
+
+    tree.insert(61, "Bill & Ted's Excellent Adventure")
+    tree.insert(16, "Johnny English")
+    tree.insert(92, "Sharknado 3")
+    tree.insert(50, "Hannibal Buress: Animal Furnace")
+
+    assert_equal 1, tree.depth_of(92)
+    assert_equal 2, tree.depth_of(50)
+  end
+
+  def test_max_returns_max_score_in_tree
+    tree = BinarySearchTree.new
+
+    tree.insert(61, "Bill & Ted's Excellent Adventure")
+    tree.insert(16, "Johnny English")
+    tree.insert(92, "Sharknado 3")
+    tree.insert(50, "Hannibal Buress: Animal Furnace")
+
+    assert_equal 92, tree.max
   end
 end
