@@ -50,12 +50,7 @@ class BinarySearchTree
   end
 
   def include?(score)
-    # is there a more elegant way?
-    if search(score)
-      return true
-    else
-      return false
-    end
+    return search(score) != nil
   end
 
   def depth_of(score)
