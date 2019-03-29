@@ -72,4 +72,15 @@ class BinarySearchTree
       child = child.right
     end
   end
+
+  def min
+    child = @root.left
+
+    while child
+      if child.left == nil
+        return {child.title => child.score}
+      end
+      child = child.left
+    end
+  end
 end
