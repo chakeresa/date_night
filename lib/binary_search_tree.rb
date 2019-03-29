@@ -67,7 +67,7 @@ class BinarySearchTree
 
     while child
       if child.right == nil
-        return child.score
+        return {child.title => child.score}
       end
       child = child.right
     end

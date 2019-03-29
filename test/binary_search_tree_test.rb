@@ -69,6 +69,8 @@ class BinarySearchTreeTest < Minitest::Test
     tree.insert(92, "Sharknado 3")
     tree.insert(50, "Hannibal Buress: Animal Furnace")
 
-    assert_equal 92, tree.max
+    expected = {"Sharknado 3" => 92}
+
+    assert_equal expected, tree.max
   end
 end
