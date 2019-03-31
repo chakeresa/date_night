@@ -7,7 +7,7 @@ class BinarySearchTree
 
   def insert(score, title)
     if @root == nil
-      @root = Node.new(score, title, 0)
+      @root = Node.new(score, title, 0, nil)
       return @root.depth
     end
 
@@ -17,7 +17,7 @@ class BinarySearchTree
 
       if score < parent.score
         if parent.left == nil
-          parent.left = Node.new(score, title, depth)
+          parent.left = Node.new(score, title, depth, parent)
           return depth
         end
 
@@ -25,7 +25,7 @@ class BinarySearchTree
 
       else # score > parent.score *(or equal)*
         if parent.right == nil
-          parent.right = Node.new(score, title, depth)
+          parent.right = Node.new(score, title, depth, parent)
           return depth
         end
 
@@ -62,6 +62,7 @@ class BinarySearchTree
 
     while child
       if child.right == nil
+        @max_node = child
         return {child.title => child.score}
       end
       child = child.right
@@ -73,9 +74,33 @@ class BinarySearchTree
 
     while child
       if child.left == nil
+        @min_node = child
         return {child.title => child.score}
       end
       child = child.left
+    end
+  end
+
+  def sort
+    min
+    walk = @min_node
+    sort_ary = [walk]
+    while walk != nil
+      # TO DO: fix infinite loop
+      if walk.left != nil && walk.left.score < sort_ary.last.score
+        walk = walk.left
+      elsif walk.score > sort_ary.last.score
+        sort_ary << walk
+        if walk.right != nil && walk.right.score > sort_ary.last.score
+          walk = walk.right
+        else
+          walk = walk.parent
+        end
+      end
+    end
+
+    sort_ary.map do |element|
+      {element.title => element.score}
     end
   end
 end
