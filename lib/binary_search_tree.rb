@@ -9,27 +9,27 @@ class BinarySearchTree
     if @root == nil
       @root = Node.new(score, title, 0, nil)
       return @root.depth
-    end
+    else
+      parent = @root
+      while parent
+        depth = parent.depth + 1
 
-    parent = @root
-    while parent
-      depth = parent.depth + 1
+        if score < parent.score
+          if parent.left == nil
+            parent.left = Node.new(score, title, depth, parent)
+            return depth
+          end
 
-      if score < parent.score
-        if parent.left == nil
-          parent.left = Node.new(score, title, depth, parent)
-          return depth
+          parent = parent.left
+
+        else # score > parent.score *(or equal)*
+          if parent.right == nil
+            parent.right = Node.new(score, title, depth, parent)
+            return depth
+          end
+
+          parent = parent.right
         end
-
-        parent = parent.left
-
-      else # score > parent.score *(or equal)*
-        if parent.right == nil
-          parent.right = Node.new(score, title, depth, parent)
-          return depth
-        end
-
-        parent = parent.right
       end
     end
   end
@@ -58,24 +58,32 @@ class BinarySearchTree
   end
 
   def max
+    max_node_return = max_node
+    {max_node_return.title => max_node_return.score}
+  end
+
+  def max_node
     child = @root.right
 
     while child
       if child.right == nil
-        @max_node = child
-        return {child.title => child.score}
+        return child
       end
       child = child.right
     end
   end
 
   def min
+    min_node_return = min_node
+    {min_node_return.title => min_node_return.score}
+  end
+
+  def min_node
     child = @root.left
 
     while child
       if child.left == nil
-        @min_node = child
-        return {child.title => child.score}
+        return child
       end
       child = child.left
     end
@@ -96,7 +104,10 @@ class BinarySearchTree
         else
           walk = walk.parent
         end
+      else # if last = walk
+        walk = walk.parent
       end
+      require "pry"; binding.pry
     end
 
     sort_ary.map do |element|
