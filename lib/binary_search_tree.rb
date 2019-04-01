@@ -90,8 +90,7 @@ class BinarySearchTree
   end
 
   def sort
-    min
-    walk = @min_node
+    walk = min_node
     sort_ary = [walk]
     while walk != nil
       # TO DO: fix infinite loop
@@ -107,7 +106,7 @@ class BinarySearchTree
       else # if last = walk
         walk = walk.parent
       end
-      require "pry"; binding.pry
+      # require "pry"; binding.pry
     end
 
     sort_ary.map do |element|
