@@ -111,9 +111,121 @@ class BinarySearchTreeTest < Minitest::Test
     assert_equal "Johnny English", tree.min_node.title
   end
 
+  def test_first_step_of_sort
+    tree = BinarySearchTree.new
+    bill = Node.new(61, "Bill & Ted's Excellent Adventure", 0, nil)
+    johnny = Node.new(16, "Johnny English", 1, bill)
+    bill.left = johnny
+    shark = Node.new(92, "Sharknado 3", 1, bill)
+    bill.right = shark
+    hannibal = Node.new(50, "Hannibal Buress: Animal Furnace", 2, johnny)
+    johnny.right = hannibal
+
+    actual_node, actual_sort_ary = tree.one_step_of_sort(johnny, [johnny])
+
+    assert_equal hannibal, actual_node
+    assert_equal [johnny], actual_sort_ary
+  end
+
+  def test_second_step_of_sort
+    tree = BinarySearchTree.new
+    bill = Node.new(61, "Bill & Ted's Excellent Adventure", 0, nil)
+    johnny = Node.new(16, "Johnny English", 1, bill)
+    bill.left = johnny
+    shark = Node.new(92, "Sharknado 3", 1, bill)
+    bill.right = shark
+    hannibal = Node.new(50, "Hannibal Buress: Animal Furnace", 2, johnny)
+    johnny.right = hannibal
+
+    actual_node, actual_sort_ary = tree.one_step_of_sort(hannibal, [johnny])
+
+    assert_equal johnny, actual_node
+    assert_equal [johnny, hannibal], actual_sort_ary
+  end
+
+  def test_third_step_of_sort
+    tree = BinarySearchTree.new
+    bill = Node.new(61, "Bill & Ted's Excellent Adventure", 0, nil)
+    johnny = Node.new(16, "Johnny English", 1, bill)
+    bill.left = johnny
+    shark = Node.new(92, "Sharknado 3", 1, bill)
+    bill.right = shark
+    hannibal = Node.new(50, "Hannibal Buress: Animal Furnace", 2, johnny)
+    johnny.right = hannibal
+
+    actual_node, actual_sort_ary = tree.one_step_of_sort(johnny, [johnny, hannibal])
+
+    assert_equal bill, actual_node
+    assert_equal [johnny, hannibal], actual_sort_ary
+  end
+
+  def test_fourth_step_of_sort
+    tree = BinarySearchTree.new
+    bill = Node.new(61, "Bill & Ted's Excellent Adventure", 0, nil)
+    johnny = Node.new(16, "Johnny English", 1, bill)
+    bill.left = johnny
+    shark = Node.new(92, "Sharknado 3", 1, bill)
+    bill.right = shark
+    hannibal = Node.new(50, "Hannibal Buress: Animal Furnace", 2, johnny)
+    johnny.right = hannibal
+
+    actual_node, actual_sort_ary = tree.one_step_of_sort(bill, [johnny, hannibal])
+
+    assert_equal shark, actual_node
+    assert_equal [johnny, hannibal, bill], actual_sort_ary
+  end
+
+  def test_fifth_step_of_sort
+    tree = BinarySearchTree.new
+    bill = Node.new(61, "Bill & Ted's Excellent Adventure", 0, nil)
+    johnny = Node.new(16, "Johnny English", 1, bill)
+    bill.left = johnny
+    shark = Node.new(92, "Sharknado 3", 1, bill)
+    bill.right = shark
+    hannibal = Node.new(50, "Hannibal Buress: Animal Furnace", 2, johnny)
+    johnny.right = hannibal
+
+    actual_node, actual_sort_ary = tree.one_step_of_sort(shark, [johnny, hannibal, bill])
+
+    assert_equal bill, actual_node
+    assert_equal [johnny, hannibal, bill, shark], actual_sort_ary
+  end
+
+  def test_sixth_step_of_sort
+    tree = BinarySearchTree.new
+    bill = Node.new(61, "Bill & Ted's Excellent Adventure", 0, nil)
+    johnny = Node.new(16, "Johnny English", 1, bill)
+    bill.left = johnny
+    shark = Node.new(92, "Sharknado 3", 1, bill)
+    bill.right = shark
+    hannibal = Node.new(50, "Hannibal Buress: Animal Furnace", 2, johnny)
+    johnny.right = hannibal
+
+    actual_node, actual_sort_ary = tree.one_step_of_sort(bill, [johnny, hannibal, bill, shark])
+
+    assert_nil actual_node
+    assert_equal [johnny, hannibal, bill, shark], actual_sort_ary
+  end
+
+  def test_sorted_nodes_returns_ary_of_sorted_nodes
+    tree = BinarySearchTree.new
+
+    tree.insert(61, "Bill & Ted's Excellent Adventure")
+    tree.insert(16, "Johnny English")
+    tree.insert(92, "Sharknado 3")
+    tree.insert(50, "Hannibal Buress: Animal Furnace")
+
+    actual = tree.sorted_nodes.map do |node|
+      node.score
+    end
+
+    expected = [16, 50, 61, 92]
+
+    assert_equal expected, actual
+    assert_instance_of Node, tree.sorted_nodes[0]
+  end
+
   def test_sort_returns_ary_of_sorted_hashes_with_title_and_score
-     # Stuck in infinite loop!
-     skip
     tree = BinarySearchTree.new
 
     tree.insert(61, "Bill & Ted's Excellent Adventure")

@@ -89,27 +89,39 @@ class BinarySearchTree
     end
   end
 
-  def sort
-    walk = min_node
-    sort_ary = [walk]
-    while walk != nil
-      # TO DO: fix infinite loop
-      if walk.left != nil && walk.left.score < sort_ary.last.score
-        walk = walk.left
-      elsif walk.score > sort_ary.last.score
+  def one_step_of_sort(walk, sort_ary)
+    if walk.left != nil && walk.left.score > sort_ary.last.score
+      walk = walk.left
+    elsif walk.score >= sort_ary.last.score
+      if sort_ary.last.score != walk.score
         sort_ary << walk
-        if walk.right != nil && walk.right.score > sort_ary.last.score
-          walk = walk.right
-        else
-          walk = walk.parent
-        end
-      else # if last = walk
+      end
+
+      if walk.right != nil && walk.right.score > sort_ary.last.score
+        walk = walk.right
+      else
         walk = walk.parent
       end
-      # require "pry"; binding.pry
+    else # if last = walk
+      walk = walk.parent
     end
 
-    sort_ary.map do |element|
+    return walk, sort_ary
+  end
+
+  def sorted_nodes
+    walk = min_node
+    sort_ary = [walk]
+
+    while walk != nil
+      walk, sort_ary = one_step_of_sort(walk, sort_ary)
+    end
+
+    sort_ary
+  end
+
+  def sort
+    sorted_nodes.map do |element|
       {element.title => element.score}
     end
   end
